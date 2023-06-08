@@ -29,6 +29,15 @@ async function run() {
     const classCollection = client.db("CreactArtSchool").collection("class");
     const UserCollection = client.db("CreactArtSchool").collection("user");
 
+
+    
+    // this is the class add
+    app.post('/class', async (req, res) => {
+      const user = req.body;
+      const result = await toyCollection.insertOne(user);
+      res.send(result);
+  })
+
     // this is the user data save
 
     app.get('/users', async (req, res)=>{
