@@ -27,21 +27,37 @@ async function run() {
     // Send a ping to confirm a successful connection
     const InstructorsCollection = client.db("CreactArtSchool").collection("Instructors");
     const classCollection = client.db("CreactArtSchool").collection("class");
+    const UserCollection = client.db("CreactArtSchool").collection("user");
+
+    // this is the user data save
+
+    app.post('/users', async(req, res)=>{
+      const user= req.body;
+      const query ={email: user.email}
+      const existingUser = await UserCollection.findOne(query);
+      if (existingUser){
+        return res.send({message: 'user already exissts'})
+      }
+      const result = await UserCollection.insertOne(user)
+      res.send(result);
+    })
 
 
+
+    // this is the instructors data
     app.get('/Instructors', async (req, res) => {
-        const items = InstructorsCollection.find();
-        const result = await items.toArray();
-        res.send(result);
+      const items = InstructorsCollection.find();
+      const result = await items.toArray();
+      res.send(result);
     });
-    
+
     // thsi is the class 
     app.get('/class', async (req, res) => {
-        const items = classCollection.find();
-        const result = await items.toArray();
-        res.send(result);
+      const items = classCollection.find();
+      const result = await items.toArray();
+      res.send(result);
     });
-    
+
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
@@ -52,11 +68,11 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+  res.send('Hello World!')
 })
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+  console.log(`Example app listening on port ${port}`)
 })
 
 
