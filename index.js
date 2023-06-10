@@ -9,6 +9,7 @@ const port = process.env.PORT || 5000
 app.use(cors());
 app.use(express.json());
 
+// verifyJwt link 
 const verifyJWT = (req, res, next) => {
   const authorization = req.headers.authorization;
   if (!authorization) {
@@ -40,9 +41,7 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
-    // await client.connect();
-    // Send a ping to confirm a successful connection
+    // all collection mongodb 
     const InstructorsCollection = client.db("CreactArtSchool").collection("Instructors");
     const classCollection = client.db("CreactArtSchool").collection("class");
     const UserCollection = client.db("CreactArtSchool").collection("user");
@@ -61,7 +60,7 @@ async function run() {
       res.send(result);
   })
 
-   
+  //  user all data get
     app.get('/users', async (req, res)=>{
       const items = UserCollection.find();
       const result = await items.toArray();
@@ -80,7 +79,7 @@ async function run() {
       const result = await UserCollection.insertOne(user)
       res.send(result);
     })
-     
+    // admin users
     app.get('/users/admin/:email',async(req,res)=>{
       const email = req.params.email;
       const query = {email: email}
@@ -123,7 +122,7 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
+// this is  checked the mongodb
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
