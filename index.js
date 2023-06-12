@@ -45,6 +45,7 @@ async function run() {
     const InstructorsCollection = client.db("CreactArtSchool").collection("Instructors");
     const classCollection = client.db("CreactArtSchool").collection("class");
     const UserCollection = client.db("CreactArtSchool").collection("user");
+    const ClassSeletedCollection = client.db("CreactArtSchool").collection("ClassSeleted");
 
   //  this is the token jwt
     app.post('/jwt', (req, res) => {
@@ -52,6 +53,15 @@ async function run() {
       const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
       res.send({ token })
     })
+
+
+  // this is the selate data class
+    app.post('/ClassSeleted', async (req, res) => {
+      const user = req.body;
+      const result = await ClassSeletedCollection.insertOne(user);
+      res.send(result);
+  })
+
 
     // this is the class add
     app.post('/class', async (req, res) => {
