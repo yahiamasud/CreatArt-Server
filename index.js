@@ -62,6 +62,13 @@ async function run() {
       res.send(result);
   })
 
+  // this is the selate data class
+  app.get('/ClassSeleted', async (req, res)=>{
+    const items = ClassSeletedCollection.find();
+    const result = await items.toArray();
+    res.send(result);
+  });
+
 
     // this is the class add
     app.post('/class', async (req, res) => {
