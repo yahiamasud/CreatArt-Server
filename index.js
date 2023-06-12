@@ -69,7 +69,8 @@ async function run() {
     res.send(result);
   });
 
-
+  //  all .
+  
     // this is the class add
     app.post('/class', async (req, res) => {
       const user = req.body;
